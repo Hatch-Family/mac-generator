@@ -75,6 +75,10 @@ When providing a prefix, the script validates that:
 - Python 3.6 or higher
 - No external dependencies required
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## Notes
 
 - The script accepts both colon-separated (02:00:1A) and continuous (02001A) input formats

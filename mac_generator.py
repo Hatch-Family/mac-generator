@@ -4,6 +4,9 @@ MAC Address Generator
 
 Generates private (locally-administered, unicast) MAC addresses.
 Can generate completely random addresses or allow specification of the first 1-3 bytes.
+
+MIT License - see LICENSE file for details.
+Copyright (c) 2025 Matthew Hatch
 """
 
 import random
