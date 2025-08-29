@@ -11,26 +11,30 @@ A simple Python script that generates private (locally-administered, unicast) MA
 
 ## Usage
 
-### Generate a random private MAC address:
+### Generate a random private MAC address
+
 ```bash
 python mac_generator.py
 # or
 ./mac_generator.py
 ```
 
-### Generate MAC address with specific first byte:
+### Generate MAC address with specific first byte
+
 ```bash
 python mac_generator.py 02
 ```
 
-### Generate MAC address with specific first two bytes:
+### Generate MAC address with specific first two bytes
+
 ```bash
 python mac_generator.py 02:00
 # or
 python mac_generator.py 0200
 ```
 
-### Generate MAC address with specific first three bytes:
+### Generate MAC address with specific first three bytes
+
 ```bash
 python mac_generator.py 02:00:1A
 # or
@@ -56,6 +60,7 @@ Generated MAC with prefix 02001A: 02:00:1A:B7:4C:9E
 ## MAC Address Format
 
 The script generates MAC addresses that are:
+
 - **Unicast**: Least significant bit (bit 0) of the first byte is 0
 - **Locally-administered**: Second least significant bit (bit 1) of the first byte is 1
 
@@ -64,6 +69,7 @@ This means the first byte will always end in binary '10' (U/L=1, I/G=0), resulti
 ## Validation
 
 When providing a prefix, the script validates that:
+
 - The first byte is a valid private MAC byte (ending in binary '10')
 - All bytes are valid hexadecimal values
 - The prefix length is 1-3 bytes
