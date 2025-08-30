@@ -9,6 +9,8 @@ MIT License - see LICENSE file for details.
 Copyright (c) 2025 Matthew Hatch
 """
 
+__version__ = "0.1.0"
+
 import random
 import re
 import sys
@@ -109,7 +111,37 @@ def main():
     if len(sys.argv) > 2:
         print("Usage: python mac_generator.py [prefix]")
         print("  prefix: Optional MAC prefix (1-3 bytes, e.g., '02', '02:00', '02:00:1A')")
+        print("  -h, --help: Show help message")
+        print("  -v, --version: Show version information")
         sys.exit(1)
+    
+    # Check for version option
+    if len(sys.argv) == 2 and sys.argv[1] in ['-v', '--version']:
+        print(f"MAC Address Generator v{__version__}")
+        sys.exit(0)
+    
+    # Check for help option
+    if len(sys.argv) == 2 and sys.argv[1] in ['-h', '--help']:
+        print("MAC Address Generator")
+        print(f"Version: {__version__}")
+        print("Generates private (locally-administered, unicast) MAC addresses.")
+        print()
+        print("Usage: python mac_generator.py [prefix]")
+        print()
+        print("Arguments:")
+        print("  prefix           Optional MAC prefix (1-3 bytes)")
+        print("  -h, --help       Show this help message")
+        print("  -v, --version    Show version information")
+        print()
+        print("Examples:")
+        print("  python mac_generator.py          # Generate random private MAC")
+        print("  python mac_generator.py 02       # Generate MAC with prefix '02'")
+        print("  python mac_generator.py 02:00    # Generate MAC with prefix '02:00'")
+        print("  python mac_generator.py 02001A   # Generate MAC with prefix '02:00:1A'")
+        print()
+        print("Note: The first byte must be a valid private MAC byte (ending in binary '10')")
+        print("Valid first bytes include: 02, 06, 0A, 0E, 12, 16, 1A, 1E, 22, 26, 2A, 2E, etc.")
+        sys.exit(0)
     
     prefix = sys.argv[1] if len(sys.argv) == 2 else None
     
@@ -118,8 +150,9 @@ def main():
             prefix_bytes = parse_mac_prefix(prefix)
             if prefix_bytes is None:
                 print(f"Error: Invalid MAC prefix '{prefix}'")
+                print()
                 print("Prefix should be 1-3 hex bytes (e.g., '02', '02:00', '02:00:1A')")
-                print("The first byte must be a valid private MAC byte (ending in binary '10')")
+                print("Note: The first byte must be a valid private MAC byte (ending in binary '10')")
                 print("Valid first bytes include: 02, 06, 0A, 0E, 12, 16, 1A, 1E, 22, 26, 2A, 2E, etc.")
                 sys.exit(1)
             
