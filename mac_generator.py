@@ -109,10 +109,14 @@ def generate_private_mac(prefix_bytes: Optional[List[int]] = None) -> str:
 def main():
     """Main function to handle command line arguments and generate MAC addresses."""
     if len(sys.argv) > 2:
+        print("Error: Too many arguments provided")
+        print()
         print("Usage: python mac_generator.py [prefix]")
         print("  prefix: Optional MAC prefix (1-3 bytes, e.g., '02', '02:00', '02:00:1A')")
         print("  -h, --help: Show help message")
         print("  -v, --version: Show version information")
+        print()
+        print("Run 'python mac_generator.py --help' for more information.")
         sys.exit(1)
     
     # Check for version option
@@ -152,8 +156,11 @@ def main():
                 print(f"Error: Invalid MAC prefix '{prefix}'")
                 print()
                 print("Prefix should be 1-3 hex bytes (e.g., '02', '02:00', '02:00:1A')")
+                print()
                 print("Note: The first byte must be a valid private MAC byte (ending in binary '10')")
                 print("Valid first bytes include: 02, 06, 0A, 0E, 12, 16, 1A, 1E, 22, 26, 2A, 2E, etc.")
+                print()
+                print("Run 'python mac_generator.py --help' for more information.")
                 sys.exit(1)
             
             mac_address = generate_private_mac(prefix_bytes)
@@ -164,6 +171,8 @@ def main():
             
     except Exception as e:
         print(f"Error: {e}")
+        print()
+        print("Run 'python mac_generator.py --help' for more information.")
         sys.exit(1)
 
 
