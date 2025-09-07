@@ -14,7 +14,7 @@ A simple Python script that generates private (locally-administered, unicast) MA
 ### Command Line Options
 
 ```text
-python mac_generator.py [prefix] [options]
+python mac-generator.py [prefix] [options]
 ```
 
 **Arguments:**
@@ -29,52 +29,52 @@ python mac_generator.py [prefix] [options]
 ### Generate a random private MAC address
 
 ```text
-python mac_generator.py
+python mac-generator.py
 
 or
 
-./mac_generator.py
+./mac-generator.py
 ```
 
 ### Generate MAC address with specific first byte
 
 ```text
-python mac_generator.py 02
+python mac-generator.py 02
 ```
 
 ### Generate MAC address with specific first two bytes
 
 ```text
-python mac_generator.py 02:00
+python mac-generator.py 02:00
 
 or
 
-python mac_generator.py 0200
+python mac-generator.py 0200
 ```
 
 ### Generate MAC address with specific first three bytes
 
 ```text
-python mac_generator.py 02:00:1A
+python mac-generator.py 02:00:1A
 
 or
 
-python mac_generator.py 02001A
+python mac-generator.py 02001A
 ```
 
 ## Examples
 
 ```text
-$ python mac_generator.py
+$ python mac-generator.py
 Generated random private MAC: 02:A7:3F:8B:1C:9D
 
-$ python mac_generator.py 02
+$ python mac-generator.py 02
 Generated MAC with prefix 02: 02:7B:4E:9A:3F:1C
 
-$ python mac_generator.py 02:00
+$ python mac-generator.py 02:00
 Generated MAC with prefix 02:00: 02:00:5B:8E:2A:7F
 
-$ python mac_generator.py 02001A
+$ python mac-generator.py 02001A
 Generated MAC with prefix 02001A: 02:00:1A:B7:4C:9E
 ```
 
@@ -129,4 +129,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - The script accepts both colon-separated (02:00:1A) and continuous (02001A) input formats
 - Input is case-insensitive
 - Invalid prefixes will result in an error message with usage instructions
-- Run `python mac_generator.py --help` for detailed usage information
+- Run `python mac-generator.py --help` for detailed usage information
