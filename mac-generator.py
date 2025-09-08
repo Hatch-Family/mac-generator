@@ -114,7 +114,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python mac-generator.py                    # Generate random private MAC
+  python mac-generator.py                   # Generate random private MAC
   python mac-generator.py -c 5              # Generate 5 random private MACs
   python mac-generator.py 02                # Generate MAC with prefix '02'
   python mac-generator.py 02:00 -c 3        # Generate 3 MACs with prefix '02:00'
