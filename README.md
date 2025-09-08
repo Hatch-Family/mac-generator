@@ -6,12 +6,11 @@ A simple Python script that generates private (locally-administered, unicast) MA
 
 - Generates random private MAC addresses by default
 - Allows specification of the first 1-3 bytes with remaining bytes randomly generated
+- Supports bulk generation with count option (up to 10,000 addresses per run)
 - Ensures MAC addresses are locally-administered and unicast
 - Supports both colon-separated and continuous hex input formats
 
 ## Usage
-
-### Command Line Options
 
 ```text
 python mac-generator.py [prefix] [options]
@@ -23,51 +22,18 @@ python mac-generator.py [prefix] [options]
 
 **Options:**
 
+- `-c, --count COUNT` - Number of MAC addresses to generate (default: 1, max: 10,000)
 - `-h, --help` - Show help message
 - `-v, --version` - Show version information
-
-### Generate a random private MAC address
-
-```text
-python mac-generator.py
-
-or
-
-./mac-generator.py
-```
-
-### Generate MAC address with specific first byte
-
-```text
-python mac-generator.py 02
-```
-
-### Generate MAC address with specific first two bytes
-
-```text
-python mac-generator.py 02:00
-
-or
-
-python mac-generator.py 0200
-```
-
-### Generate MAC address with specific first three bytes
-
-```text
-python mac-generator.py 02:00:1A
-
-or
-
-python mac-generator.py 02001A
-```
 
 ## Examples
 
 ```text
+# Generate single random MAC
 $ python mac-generator.py
 Generated random private MAC: 02:A7:3F:8B:1C:9D
 
+# Generate MAC with prefix (supports both colon-separated and continuous formats)
 $ python mac-generator.py 02
 Generated MAC with prefix 02: 02:7B:4E:9A:3F:1C
 
@@ -76,6 +42,17 @@ Generated MAC with prefix 02:00: 02:00:5B:8E:2A:7F
 
 $ python mac-generator.py 02001A
 Generated MAC with prefix 02001A: 02:00:1A:B7:4C:9E
+
+# Generate multiple MACs
+$ python mac-generator.py -c 3
+Generated random private MAC: 8A:96:69:80:C5:D3
+Generated random private MAC: AA:10:1C:E5:04:60
+Generated random private MAC: 02:6E:0F:B7:12:12
+
+# Generate multiple MACs with prefix
+$ python mac-generator.py 02:00:1A -c 2
+Generated MAC with prefix 02:00:1A: 02:00:1A:1D:AD:62
+Generated MAC with prefix 02:00:1A: 02:00:1A:7D:3D:04
 ```
 
 ## MAC Address Format
@@ -126,7 +103,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Notes
 
-- The script accepts both colon-separated (02:00:1A) and continuous (02001A) input formats
 - Input is case-insensitive
-- Invalid prefixes will result in an error message with usage instructions
+- Count option supports 1-10,000 addresses per run for performance and resource management
 - Run `python mac-generator.py --help` for detailed usage information
