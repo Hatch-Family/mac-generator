@@ -9,8 +9,9 @@ MIT License - see LICENSE file for details.
 Copyright (c) 2025 Matthew Hatch
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
+import argparse
 import random
 import re
 import sys
@@ -108,52 +109,59 @@ def generate_private_mac(prefix_bytes: Optional[List[int]] = None) -> str:
 
 def main():
     """Main function to handle command line arguments and generate MAC addresses."""
-    if len(sys.argv) > 2:
-        print("Error: Too many arguments provided")
-        print()
-        print("Usage: python mac-generator.py [prefix]")
-        print("  prefix: Optional MAC prefix (1-3 bytes, e.g., '02', '02:00', '02:00:1A')")
-        print("  -h, --help: Show help message")
-        print("  -v, --version: Show version information")
-        print()
-        print("Run 'python mac-generator.py --help' for more information.")
+    parser = argparse.ArgumentParser(
+        description="Generate private (locally-administered, unicast) MAC addresses.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python mac-generator.py                    # Generate random private MAC
+  python mac-generator.py -c 5              # Generate 5 random private MACs
+  python mac-generator.py 02                # Generate MAC with prefix '02'
+  python mac-generator.py 02:00 -c 3        # Generate 3 MACs with prefix '02:00'
+  python mac-generator.py 02001A -c 10      # Generate 10 MACs with prefix '02:00:1A'
+
+Note: The first byte must be a valid private MAC byte (ending in binary '10')
+Valid first bytes include: 02, 06, 0A, 0E, 12, 16, 1A, 1E, 22, 26, 2A, 2E, etc.
+        """
+    )
+    
+    parser.add_argument(
+        'prefix',
+        nargs='?',
+        help='Optional MAC prefix (1-3 bytes, e.g., "02", "02:00", "02:00:1A")'
+    )
+    
+    parser.add_argument(
+        '-c', '--count',
+        type=int,
+        default=1,
+        help='Number of MAC addresses to generate (default: 1, max: 10,000)'
+    )
+    
+    parser.add_argument(
+        '-v', '--version',
+        action='version',
+        version=f'MAC Address Generator v{__version__}'
+    )
+    
+    args = parser.parse_args()
+    
+    # Validate count
+    if args.count < 1:
+        print("Error: Count must be at least 1")
         sys.exit(1)
     
-    # Check for version option
-    if len(sys.argv) == 2 and sys.argv[1] in ['-v', '--version']:
-        print(f"MAC Address Generator v{__version__}")
-        sys.exit(0)
-    
-    # Check for help option
-    if len(sys.argv) == 2 and sys.argv[1] in ['-h', '--help']:
-        print("MAC Address Generator")
-        print(f"Version: {__version__}")
-        print("Generates private (locally-administered, unicast) MAC addresses.")
-        print()
-        print("Usage: python mac-generator.py [prefix]")
-        print()
-        print("Arguments:")
-        print("  prefix           Optional MAC prefix (1-3 bytes)")
-        print("  -h, --help       Show this help message")
-        print("  -v, --version    Show version information")
-        print()
-        print("Examples:")
-        print("  python mac-generator.py          # Generate random private MAC")
-        print("  python mac-generator.py 02       # Generate MAC with prefix '02'")
-        print("  python mac-generator.py 02:00    # Generate MAC with prefix '02:00'")
-        print("  python mac-generator.py 02001A   # Generate MAC with prefix '02:00:1A'")
-        print()
-        print("Note: The first byte must be a valid private MAC byte (ending in binary '10')")
-        print("Valid first bytes include: 02, 06, 0A, 0E, 12, 16, 1A, 1E, 22, 26, 2A, 2E, etc.")
-        sys.exit(0)
-    
-    prefix = sys.argv[1] if len(sys.argv) == 2 else None
+    if args.count > 10000:
+        print("Error: Count cannot exceed 10,000")
+        print("For bulk generation beyond this limit, please run the command multiple times.")
+        sys.exit(1)
     
     try:
-        if prefix:
-            prefix_bytes = parse_mac_prefix(prefix)
+        prefix_bytes = None
+        if args.prefix:
+            prefix_bytes = parse_mac_prefix(args.prefix)
             if prefix_bytes is None:
-                print(f"Error: Invalid MAC prefix '{prefix}'")
+                print(f"Error: Invalid MAC prefix '{args.prefix}'")
                 print()
                 print("Prefix should be 1-3 hex bytes (e.g., '02', '02:00', '02:00:1A')")
                 print()
@@ -162,12 +170,14 @@ def main():
                 print()
                 print("Run 'python mac-generator.py --help' for more information.")
                 sys.exit(1)
-            
+        
+        # Generate the requested number of MAC addresses
+        for i in range(args.count):
             mac_address = generate_private_mac(prefix_bytes)
-            print(f"Generated MAC with prefix {prefix}: {mac_address}")
-        else:
-            mac_address = generate_private_mac()
-            print(f"Generated random private MAC: {mac_address}")
+            if args.prefix:
+                print(f"Generated MAC with prefix {args.prefix}: {mac_address}")
+            else:
+                print(f"Generated random private MAC: {mac_address}")
             
     except Exception as e:
         print(f"Error: {e}")
