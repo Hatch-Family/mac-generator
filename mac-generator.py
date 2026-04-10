@@ -151,7 +151,7 @@ Examples:
 Separator formats:
   colon  02:00:1A:B7:4C:9E   (default)
   dash   02-00-1A-B7-4C-9E
-  dot    0200.1AB7.4C9E       (Cisco-style)
+  dot    0200.1AB7.4C9E      (Cisco-style)
   none   02001AB74C9E
 
 Note: The first byte must be a valid private MAC byte (ending in binary '10')
